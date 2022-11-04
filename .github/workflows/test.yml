@@ -21,7 +21,8 @@ jobs:
         continue-on-error: true
         run: npm run test
       - name: Check Steps Context
-        run: echo "Steps Context: ${{ toJSON(steps) }}"
+        run: |
+          echo 'Steps Context: ${{ toJSON(steps) }}'
       - name: Outpot Test Reports
         run: |
           echo "JSON Reports"
