@@ -1,4 +1,4 @@
-name: Test Project
+name: Deploy Project
 on:
   workflow_dispatch:
   push:
@@ -31,3 +31,20 @@ jobs:
 
           echo "XML Reports"
           cat reports/report.xml
+  deploy:
+    needs: [test]
+    runs-on: ubuntu-latest
+    if: needs.test.result == 'success'
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+      - name: Install NodeJS 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install Dependencies
+        run: npm ci
+      - name: Build Project
+        run: npm run build
+      - name: Deploy Project
+        run: ls -R dist
