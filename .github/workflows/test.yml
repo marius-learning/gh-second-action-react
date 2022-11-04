@@ -28,7 +28,7 @@ jobs:
         with:
           name: JSON Reports
           path: reports.json
-          reporter: mocha-json
+          reporter: mocha.json
       - name: Display XML Test Reports
         if: success() || failure()
         uses: dorny/test-reporter@v1
