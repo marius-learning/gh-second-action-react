@@ -46,7 +46,9 @@ jobs:
       - name: Build Project
         run: npm run build
       - name: Zip application built code (dist folder)
-        run: zip build.zip dist/* -r
+        run: |
+          cd dist
+          zip ../build.zip * -r
       - name: Store zipped built code in artifact
         uses: actions/upload-artifact@v3
         with:
@@ -68,6 +70,8 @@ jobs:
         with:
           name: build
       - name: Unzip built application code
-        run: unzip build.zip
+        run: |
+          unzip build.zip
+          rm build.zip
       - name: Deploy Project
         run: ls -R
