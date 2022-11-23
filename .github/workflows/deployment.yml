@@ -31,20 +31,48 @@ jobs:
 
           echo "XML Reports"
           cat reports/report.xml
-  deploy:
+  build:
     needs: [test]
     runs-on: ubuntu-latest
-    if: needs.test.result == 'success'
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-      - name: Install NodeJS 18
+      - name: Checkout code
+        uses: actions/cache@v3
+      - name: Install NodeJS 16
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 16
       - name: Install Dependencies
         run: npm ci
       - name: Build Project
         run: npm run build
+      - name: Zip application built code (dist folder)
+        run: |
+          cd dist
+          zip ../build.zip * -r
+      - name: Store zipped built code in artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: build.zip
+          retention-days: 1
+
+  deploy:
+    needs: [build]
+    runs-on: ubuntu-latest
+    if: needs.test.result == 'success'
+    steps:
+      - name: Install NodeJS 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Download adtifact with zipped built application code
+        uses: actions/download-artifact@v3
+        with:
+          path: build.zip
+          name: build
+      - name: Unzip built application code
+        run: |
+          unzip build.zip
+          rm build.zip
       - name: Deploy Project
-        run: ls -R dist
+        run: ls -R
