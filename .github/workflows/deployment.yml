@@ -73,7 +73,8 @@ jobs:
       - name: Unzip built application code
         run: |
           ls -la
-          unzip ./build.zip
+          pwd
+          unzip -d . build.zip
           rm build.zip
       - name: Deploy Project
         run: ls -R
