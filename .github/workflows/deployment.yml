@@ -72,7 +72,8 @@ jobs:
           name: build
       - name: Unzip built application code
         run: |
-          unzip build.zip
+          ls -la
+          unzip ./build.zip
           rm build.zip
       - name: Deploy Project
         run: ls -R
