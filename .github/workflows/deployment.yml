@@ -71,6 +71,6 @@ jobs:
           path: build.zip
           name: build
       - name: Unzip built application code
-        run: unzip build.zip
+        run: unzip $(pwd)/build.zip
       - name: Deploy Project
         run: ls -R
