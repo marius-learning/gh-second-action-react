@@ -48,7 +48,7 @@ jobs:
       - name: Zip application built code (dist folder)
         run: |
           cd dist
-          zip ../build.zip * -r
+          zip build.zip ./build/* -r
       - name: Store zipped built code in artifact
         uses: actions/upload-artifact@v3
         with:
@@ -71,6 +71,8 @@ jobs:
           path: build.zip
           name: build
       - name: Unzip built application code
-        run: unzip $(pwd)/build.zip
+        run: |
+          unzip build.zip
+          rm build.zip
       - name: Deploy Project
         run: ls -R
