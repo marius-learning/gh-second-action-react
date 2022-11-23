@@ -66,11 +66,8 @@ jobs:
       - name: Download adtifact with zipped built application code
         uses: actions/download-artifact@v3
         with:
-          path: build.zip
           name: build
       - name: Unzip built application code
-        run: |
-          unzip build.zip
-          rm build.zip
+        run: unzip build.zip
       - name: Deploy Project
         run: ls -R
